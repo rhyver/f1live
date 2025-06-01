@@ -1,0 +1,120 @@
+<div class="min-h-screen bg-gray-900 text-white">
+  <!-- Header -->
+  <header class="bg-black border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-red-500">F1 LIVE</h1>
+          <span class="ml-4 text-sm text-gray-400">Real-time Timing</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div id="connection-status" class="flex items-center">
+            <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+            <span class="text-sm text-gray-400">Connected</span>
+          </div>
+          <div id="data-source" class="flex items-center">
+            <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
+            <span class="text-sm text-gray-400">Simulator</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Session Info -->
+    <div id="session-info" class="bg-gray-800 rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">Session Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <p class="text-gray-400 text-sm">Track</p>
+          <p class="text-lg font-medium">--</p>
+        </div>
+        <div>
+          <p class="text-gray-400 text-sm">Session</p>
+          <p class="text-lg font-medium">--</p>
+        </div>
+        <div>
+          <p class="text-gray-400 text-sm">Time Remaining</p>
+          <p class="text-lg font-medium">--:--:--</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="bg-gray-800 rounded-lg overflow-hidden mb-8">
+      <div class="px-6 py-4 border-b border-gray-700">
+        <h2 class="text-xl font-semibold">Live Timing</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-900">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Pos</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Driver</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Gap</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Interval</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Last Lap</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Best Lap</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">S1</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">S2</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">S3</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Tyre</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Laps</th>
+            </tr>
+          </thead>
+          <tbody id="timing-data" class="divide-y divide-gray-700">
+            <!-- Timing data will be populated here -->
+            <tr>
+              <td colspan="11" class="px-4 py-8 text-center text-gray-500">
+                Waiting for timing data...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Additional Info Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Weather -->
+      <div class="bg-gray-800 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-4">Weather</h3>
+        <div id="weather-data" class="space-y-2">
+          <div class="flex justify-between">
+            <span class="text-gray-400">Track Temp</span>
+            <span>--°C</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Air Temp</span>
+            <span>--°C</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Wind Speed</span>
+            <span>-- km/h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track Status -->
+      <div class="bg-gray-800 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-4">Track Status</h3>
+        <div id="track-status" class="space-y-2">
+          <div class="flex items-center">
+            <div class="w-4 h-4 bg-green-500 rounded mr-2"></div>
+            <span>Track Clear</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Race Control Messages -->
+      <div class="bg-gray-800 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-4">Race Control</h3>
+        <div id="race-control" class="space-y-2 text-sm">
+          <p class="text-gray-400">No messages</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
