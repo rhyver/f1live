@@ -79,7 +79,7 @@ The application subscribes to the following F1 data feeds:
 ### Frontend
 
 - Modern, responsive UI built with Tailwind CSS
-- Real-time updates via Phoenix Channels
+- Real-time updates via Phoenix **LiveView**
 - Color-coded timing information:
   - Purple: Fastest overall time
   - Green: Personal best time
@@ -92,7 +92,7 @@ The application subscribes to the following F1 data feeds:
 To add support for new data feeds:
 
 1. Add the feed name to the subscription list in `lib/f1live/signalr/client.ex`
-2. Handle the new feed in the JavaScript frontend (`assets/js/app.js`)
+2. Handle the new feed in the LiveView (`lib/f1live_web/live/timing_live.ex`)
 3. Update the UI to display the new data
 
 ### Customizing the UI
@@ -118,7 +118,7 @@ If the application fails to connect to the F1 timing service:
 If some data is not displaying:
 
 1. Ensure there's an active F1 session (practice, qualifying, or race)
-2. Check the browser console for JavaScript errors
+2. Check the browser console for any errors
 3. Verify that the data feed is being received in the Elixir logs
 
 ## Contributing
