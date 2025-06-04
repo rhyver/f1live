@@ -22,3 +22,6 @@ config :phoenix, :plug_init_mode, :runtime
 # Enable helpful, but potentially expensive runtime checks
 config :phoenix_live_view,
   enable_expensive_runtime_checks: true
+
+# Base URL for SignalR data source during tests
+config :f1live, :signalr_url, "http://localhost:4001"

@@ -73,3 +73,6 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# Base URL for SignalR data source. Point to the simulator server in development
+config :f1live, :signalr_url, System.get_env("SIGNALR_URL") || "http://localhost:4001"

@@ -2,8 +2,12 @@ defmodule F1live.SignalR.Client do
   use WebSockex
   require Logger
 
-  @signalr_base_url "https://livetiming.formula1.com"
-  @signalr_ws_url "wss://livetiming.formula1.com/signalr"
+  @signalr_base_url Application.compile_env(:f1live, :signalr_url, "https://livetiming.formula1.com")
+  @signalr_ws_url if String.starts_with?(@signalr_base_url, "https") do
+                     String.replace_prefix(@signalr_base_url, "https", "wss") <> "/signalr"
+                   else
+                     String.replace_prefix(@signalr_base_url, "http", "ws") <> "/signalr"
+                   end
   @hub_name "Streaming"
 
   def start_link(opts \\ []) do

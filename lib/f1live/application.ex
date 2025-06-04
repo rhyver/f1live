@@ -13,8 +13,8 @@ defmodule F1live.Application do
       {Phoenix.PubSub, name: F1live.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: F1live.Finch},
-      # Start the F1 data simulator as part of the supervision tree
-      F1live.Simulator,
+      # Connect to the F1 data feed (live or simulator)
+      F1live.SignalR.Supervisor,
       # Start to serve requests, typically the last entry
       F1liveWeb.Endpoint
     ]
