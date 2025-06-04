@@ -17,7 +17,7 @@ defmodule F1liveWeb.Router do
   scope "/", F1liveWeb do
     pipe_through :browser
 
-    live "/", F1liveWeb.TimingLive
+    live "/", TimingLive
   end
 
   # Other scopes may use custom stacks.

@@ -17,7 +17,8 @@ defmodule F1liveWeb.TimingLive do
        weather_data: %{},
        track_status: %{},
        race_control: [],
-       connected: connected?(socket)
+       connected: connected?(socket),
+       drivers: []
      )}
   end
 
@@ -27,11 +28,14 @@ defmodule F1liveWeb.TimingLive do
   end
 
   def handle_info({:f1_data, "TimingData", data}, socket) do
-    {:noreply, assign(socket, :timing_data, Map.get(data, "Lines", %{}))}
+    timing_data = Map.get(data, "Lines", %{})
+    drivers = build_drivers(timing_data, socket.assigns.driver_list)
+    {:noreply, assign(socket, timing_data: timing_data, drivers: drivers)}
   end
 
   def handle_info({:f1_data, "DriverList", data}, socket) do
-    {:noreply, assign(socket, :driver_list, data)}
+    drivers = build_drivers(socket.assigns.timing_data, data)
+    {:noreply, assign(socket, driver_list: data, drivers: drivers)}
   end
 
   def handle_info({:f1_data, "SessionInfo", data}, socket) do
@@ -81,8 +85,6 @@ defmodule F1liveWeb.TimingLive do
 
   @impl true
   def render(assigns) do
-    drivers = build_drivers(assigns.timing_data, assigns.driver_list)
-
     ~H"""
     <div class="min-h-screen bg-gray-900 text-white">
       <header class="bg-black border-b border-gray-800">
@@ -147,14 +149,14 @@ defmodule F1liveWeb.TimingLive do
                 </tr>
               </thead>
               <tbody id="timing-data" class="divide-y divide-gray-700">
-                <%= if Enum.empty?(drivers) do %>
+                <%= if Enum.empty?(@drivers) do %>
                   <tr>
                     <td colspan="11" class="px-4 py-8 text-center text-gray-500">
                       Waiting for timing data...
                     </td>
                   </tr>
                 <% else %>
-                  <%= for driver <- drivers do %>
+                  <%= for driver <- @drivers do %>
                     <tr class="hover:bg-gray-700 transition-colors">
                       <td class="px-4 py-3 font-medium"><%= driver["Position"] || "--" %></td>
                       <td class="px-4 py-3">
