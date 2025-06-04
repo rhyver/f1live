@@ -57,7 +57,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 The simulator now runs as a separate server exposing the same SignalR API as the live timing feed. Start it in a different terminal:
 
 ```bash
-mix run --no-halt -e "F1live.SimulatorServer.start(:normal, [])"
+mix run --no-halt -e "F1live.SimulatorServer.Application.start(:normal, [])"
 ```
 
 By default it listens on port `4001`. The Phoenix application connects to it via the `SIGNALR_URL` configuration.

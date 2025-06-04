@@ -1,21 +1,16 @@
 defmodule F1live.SimulatorServer.Socket do
-  @behaviour :cowboy_websocket
+  @behaviour WebSock
   require Logger
 
   @impl true
-  def init(req, _state) do
-    {:cowboy_websocket, req, %{subs: MapSet.new(), msg_id: 1}}
-  end
-
-  @impl true
-  def websocket_init(state) do
+  def init(_state) do
     Phoenix.PubSub.subscribe(F1live.PubSub, "f1:live")
-    {:ok, state}
+    {:ok, %{subs: MapSet.new(), msg_id: 1}}
   end
 
   @impl true
-  def websocket_handle({:text, msg}, state) do
-    case Jason.decode(msg) do
+  def handle_in({text, :text}, state) do
+    case Jason.decode(text) do
       {:ok, %{"M" => "Subscribe", "A" => [[feed]]}} ->
         {:ok, %{state | subs: MapSet.put(state.subs, feed)}}
       _ ->
@@ -23,10 +18,10 @@ defmodule F1live.SimulatorServer.Socket do
     end
   end
 
-  def websocket_handle(_frame, state), do: {:ok, state}
+  def handle_in(_frame, state), do: {:ok, state}
 
   @impl true
-  def websocket_info({:f1_data, feed, data}, state) do
+  def handle_info({:f1_data, feed, data}, state) do
     if MapSet.member?(state.subs, feed) do
       msg = %{
         "C" => Integer.to_string(state.msg_id),
@@ -35,13 +30,13 @@ defmodule F1live.SimulatorServer.Socket do
         ]
       }
 
-      {:reply, {:text, Jason.encode!(msg)}, %{state | msg_id: state.msg_id + 1}}
+      {:push, {:text, Jason.encode!(msg)}, %{state | msg_id: state.msg_id + 1}}
     else
       {:ok, state}
     end
   end
 
-  def websocket_info(_info, state), do: {:ok, state}
+  def handle_info(_info, state), do: {:ok, state}
 
   @impl true
   def terminate(_reason, _state), do: :ok

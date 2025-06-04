@@ -3,11 +3,11 @@ defmodule F1live.SignalR.Client do
   require Logger
 
   @signalr_base_url Application.compile_env(:f1live, :signalr_url, "https://livetiming.formula1.com")
-  @signalr_ws_url if String.starts_with?(@signalr_base_url, "https") do
+  @signalr_ws_url (if String.starts_with?(@signalr_base_url, "https") do
                      String.replace_prefix(@signalr_base_url, "https", "wss") <> "/signalr"
                    else
                      String.replace_prefix(@signalr_base_url, "http", "ws") <> "/signalr"
-                   end
+                   end)
   @hub_name "Streaming"
 
   def start_link(opts \\ []) do
@@ -85,8 +85,15 @@ defmodule F1live.SignalR.Client do
   def handle_connect(_conn, state) do
     Logger.info("Connected to F1 SignalR WebSocket")
 
-    # Broadcast that we're using real data
-    Phoenix.PubSub.broadcast(F1live.PubSub, "f1:live", {:data_source, "live"})
+    # Determine data source based on the URL
+    data_source = if String.contains?(@signalr_base_url, "localhost") or String.contains?(@signalr_base_url, "127.0.0.1") do
+      "simulator"
+    else
+      "live"
+    end
+
+    # Broadcast the correct data source
+    Phoenix.PubSub.broadcast(F1live.PubSub, "f1:live", {:data_source, data_source})
 
     # Subscribe to F1 feeds after a short delay
     Process.send_after(self(), :subscribe_to_feeds, 1000)

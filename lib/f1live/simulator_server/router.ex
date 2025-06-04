@@ -13,7 +13,7 @@ defmodule F1live.SimulatorServer.Router do
   end
 
   match "/signalr/connect" do
-    Plug.Cowboy.upgrade_adapter(conn, :websocket, {F1live.SimulatorServer.Socket, %{}})
+    WebSockAdapter.upgrade(conn, F1live.SimulatorServer.Socket, %{}, [])
   end
 
   match _ do

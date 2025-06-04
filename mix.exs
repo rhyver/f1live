@@ -56,6 +56,7 @@ defmodule F1live.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:plug_cowboy, "~> 2.6"},
+      {:websock_adapter, "~> 0.5"},
       {:websockex, "~> 0.4.3"},
       {:httpoison, "~> 2.0"}
     ]
