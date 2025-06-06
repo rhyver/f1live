@@ -16,5 +16,8 @@ config :swoosh, local: false
 # Do not print debug messages in production
 config :logger, level: :info
 
+# Base URL for the SignalR data source in production
+config :f1live, :signalr_url, System.get_env("SIGNALR_URL") || "https://livetiming.formula1.com"
+
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
